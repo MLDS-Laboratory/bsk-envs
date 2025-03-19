@@ -33,17 +33,13 @@ from Basilisk.utilities import vizSupport
 RE = 149.78e6 * 1000
 RM = 228e6 * 1000
 PHI = 44.267551176032
-TMAX = 0.5
-UEQ = 19.6133
-TF = 358.79
 
 
 class LowThrustTransfer3DOFSimulator(SimulationBaseClass.SimBaseClass):
 
-    def __init__(self, max_steps=40, render_mode=None):
+    def __init__(self, tf, max_steps=40, render_mode=None):
         super(LowThrustTransfer3DOFSimulator, self).__init__()
 
-        self.max_steps = max_steps
         self.render_mode = render_mode
 
         self.simTaskName = "simTask"
@@ -52,7 +48,7 @@ class LowThrustTransfer3DOFSimulator(SimulationBaseClass.SimBaseClass):
         self.simulationTime = 0
 
         self.dynProcess = self.CreateNewProcess(self.simProcessName)
-        self.simulationTimeStep = macros.sec2nano(TF / self.max_steps * 24 * 60 * 60)
+        self.simulationTimeStep = macros.sec2nano(tf / max_steps)
         self.dynProcess.addTask(self.CreateNewTask(self.simTaskName, self.simulationTimeStep))
 
         self.gravBodyEphem = planetEphemeris.PlanetEphemeris()
